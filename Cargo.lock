@@ -310,7 +310,7 @@ dependencies = [
 
 [[package]]
 name = "dende-rs"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "anyhow",
  "chrono",
@@ -323,6 +323,7 @@ dependencies = [
  "serde_json",
  "serde_yaml",
  "teloxide",
+ "textbelt",
  "tokio",
  "virustotal3",
  "walkdir",
@@ -1755,6 +1756,19 @@ dependencies = [
  "once_cell",
  "rustix",
  "windows-sys 0.59.0",
+]
+
+[[package]]
+name = "textbelt"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6693dfa55d0ecc1b875fce18d79c9b932436596c57780e25e3b5781c3e701c4e"
+dependencies = [
+ "anyhow",
+ "reqwest",
+ "serde",
+ "serde_derive",
+ "serde_json",
 ]
 
 [[package]]

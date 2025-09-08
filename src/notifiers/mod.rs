@@ -4,11 +4,14 @@ use std::time::Duration;
 
 pub mod telegram;
 pub mod console;
+pub mod textbelt;
 // pub mod newnotifier;
 
 use console::ConsoleSink;
 use telegram::TelegramSink;
+use textbelt::TextbeltSink;
 use log::{trace,error};
+
 
 /// Aggregates all selected sinks and dispatches notifications to them.
 pub struct Notifier {
@@ -26,6 +29,7 @@ pub struct NotifyEvent {
 enum Sink {
     Console(ConsoleSink),
     Telegram(TelegramSink),
+    Textbelt(TextbeltSink),
     // NewNotifier(NewNotifierSink),
 }
 
@@ -34,6 +38,7 @@ impl Sink {
         match self {
             Sink::Console(s) => s.send(_msg).await,
             Sink::Telegram(s) => s.send(_msg).await,
+            Sink::Textbelt(s) => s.send(_msg).await,
             // // Easy to add another notifier here
             // Sink::NewNotifier(s) => s.send(_text).await,
         }
@@ -43,7 +48,8 @@ impl Sink {
 impl Notifier {
     pub fn new(
         to_raw: Vec<String>,
-        telegram_token: Option<String>
+        telegram_token: Option<String>,
+        textbelt_token: Option<String>,
     ) -> Result<Self> {
 
         let mut sinks: Vec<Sink> = Vec::new();
@@ -76,13 +82,15 @@ impl Notifier {
                     error!("Email notification has not been yet implemented.");
                     continue;
                 },
-
                 // SMS notifier
                 Some(("sms", _num)) => {
-                    error!("SMS notification has not been yet implemented.");
-                    continue;
+                    if let Some(token) = textbelt_token.clone(){
+                        sinks.push(Sink::Textbelt(TextbeltSink::new(token, _num.to_string())));
+                    } else {
+                        error!("Skipping SMS dest {_num}: no Textbelt API key provided");
+                        continue;
+                    }
                 }
-
                 // Console notifier
                 Some(("console", tag)) => {
                     sinks.push(Sink::Console(ConsoleSink::new(tag.to_string())));

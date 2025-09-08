@@ -2,6 +2,7 @@
 
 # Notifiers
 telegram_token: "1234567890:FIXME-FIXME"  # Telegram API token for you bot
+# textbelt_token: "token" # Textbelt SMS sender API
 # fixme_token: "token"
 
 # Applications
@@ -20,7 +21,7 @@ jobs:
     regex: "^password=.*"                 # Using simple string to search
     recursive: true                       # Recurse other folders inside the main folder
     read_existing: true                   # Only read new files
-    to: ["tg:FIXME"]                      # Only on Telegram
+    to: ["tg:FIXME", "sms:+33601020304"]  # Telegram and SMS by textbelt API
   
   # Job 3 (log-watcher)
   - path: "/tmp/logs/nginx/access.log"    # Or path of one file

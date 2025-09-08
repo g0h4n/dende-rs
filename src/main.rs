@@ -27,7 +27,7 @@ async fn main() -> Result<()> {
     debug!("Verbosity level: {:?}", level);
 
     // Build the job list (from YAML or CLI) + optional global Telegram token
-    let (mut jobs, telegram_global_token, virustotal_global_token) = load_jobs_from_cli_or_yaml(&args)?;
+    let (mut jobs, telegram_global_token, virustotal_global_token, textbelt_global_token) = load_jobs_from_cli_or_yaml(&args)?;
 
     // Start each job in a blocking thread; the notifier runs in Tokio
     let mut _thread_handles = Vec::new();
@@ -37,9 +37,10 @@ async fn main() -> Result<()> {
         // If job has "path" is search job "log-watcher"
         if let Some(path) = job.path.as_ref() {
             if path.is_dir() || path.is_file() {
-                let token = job.telegram_token.clone().or_else(|| telegram_global_token.clone());
+                let telegram_token = job.telegram_token.clone().or_else(|| telegram_global_token.clone());
+                let textbelt_token = job.textbelt_token.clone().or_else(|| textbelt_global_token.clone());                
                 let matcher = Matcher::from_spec(&job.search, &job.regex)?;
-                let notifier = Notifier::new(job.to.clone(), token)?;
+                let notifier = Notifier::new(job.to.clone(), telegram_token,textbelt_token)?;
                 let handle = spawn_job_watcher(
                     idx,
                     path.clone(),
@@ -57,7 +58,8 @@ async fn main() -> Result<()> {
             if let Some(vt_token) = virustotal_global_token.to_owned() {
 
                 let telegram_token = job.telegram_token.clone().or_else(|| telegram_global_token.clone());
-                let notifier = Notifier::new(job.to.clone(), telegram_token)?;
+                let textbelt_token = job.textbelt_token.clone().or_else(|| textbelt_global_token.clone());
+                let notifier = Notifier::new(job.to.clone(), telegram_token, textbelt_token)?;
 
                 if let Some(hashes) = job.hash.clone() {
                     let handle = tokio::spawn(async move {
