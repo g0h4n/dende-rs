@@ -6,7 +6,7 @@
   - [Notifiers (sinks)](#notifiers-sinks)
 - [Quick usage](#quick-usage)
   - [Compilation (Makefile, cargo, docker)](#compilation)
-  - [Quick start](#quick-start)
+  - [Quick start with Telegram](#quick-start-wth-telegram)
 - [YAML example](#yaml-example)
 - [How to add a new notifier?](#how-to-add-a-new-notifier)
 
@@ -18,7 +18,7 @@
 
 ```bash
 dende-rs monitors files or directories for patterns (string or regex) and sends instant Telegram notifications on matches.
-It can also run a dedicated "VT watch" job that polls VirusTotal for your payload’s hash and alerts you the moment it’s published.
+It can also run a dedicated (VT watch) job that polls VirusTotal for your payload’s hash and alerts you the moment it’s published.
 Configure it via CLI or YAML to run multiple jobs in parallel.
 
 Usage: dende-rs [OPTIONS]
@@ -42,6 +42,8 @@ Options:
           SHA-256 hash of the payload to monitor on VirusTotal. Checks whether the binary has been published. (single-job CLI mode)
       --virustotal-token <VIRUSTOTAL_TOKEN>
           Virustotal API token to check the payload hashes is published or not (or ENV VIRUSTOTAL_TOKEN) (single-job CLI mode) [env: VIRUSTOTAL_TOKEN=]
+      --textbelt-token <TEXTBELT_TOKEN>
+          Textbelt API token to send SMS [env: TEXTBELT_TOKEN=]
   -C, --config <CONFIG>
           YAML configuration file (multi-jobs)
   -v...
@@ -153,6 +155,7 @@ target/release/dende-rs -P /var/log/myapp/access.log -R "^SUCCESS.*" -T tg:12345
 
 # Notifiers
 telegram_token: "1234567890:FIXME-FIXME"  # Telegram API token for you bot
+# textbelt_token: "token" # Textbelt API token for SMS
 # fixme_token: "token"
 
 # Applications

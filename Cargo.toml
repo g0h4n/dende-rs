@@ -1,7 +1,14 @@
 [package]
 name = "dende-rs"
 version = "0.0.3"
+authors = ["g0h4n <https://github.com/g0h4n>"]
+keywords = ["notifier", "tokyo", "textbelt", "sms", "log"]
+description = "The library for Textbelt API, use to send SMS!"
+repository = "https://github.com/g0h4n/dende-rs"
+homepage = "https://github.com/g0h4n/dende-rs"
+readme = "README.md"
 edition = "2024"
+license = "MIT"
 
 [dependencies]
 clap = { version = "4.5", features = ["derive", "env"] }
@@ -26,4 +33,6 @@ tokio = { version = "1.8", features = ["macros", "fs", "rt-multi-thread", "proce
 # YAML
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
+
+# Textbelt (SMS)
 textbelt = "1.0.0"
