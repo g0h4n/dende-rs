@@ -82,13 +82,7 @@ impl Notifier {
                     error!("Email notification has not been yet implemented.");
                     continue;
                 },
-                /*
                 // SMS notifier
-                Some(("sms", _num)) => {
-                    error!("SMS notification has not been yet implemented.");
-                    continue;
-                }
-                */
                 Some(("sms", _num)) => {
                     if let Some(token) = textbelt_token.clone(){
                         sinks.push(Sink::Textbelt(TextbeltSink::new(token, _num.to_string())));
