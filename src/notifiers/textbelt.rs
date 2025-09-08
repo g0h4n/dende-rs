@@ -11,19 +11,6 @@ pub struct TextbeltSink {
 
 
 impl TextbeltSink {
-    /* 
-    pub fn new(api_key: String, phone: String) -> Self {
-        let tc = TextbeltClient::new(api_key, Some("dende-rs"));
-        debug!("TextbeltSink initialized for phone number {}",phone);
-        Self { tc, phone }
-    }
-    pub async fn send(&self, msg: &str) -> Result<()> {
-        info!("Sending notification from SMS...");
-        let response = self.tc.text(self.phone, msg);
-        Ok(())
-    } 
-    */
-
     pub fn new(api_key: String, phone: String) -> Self {
         Self { phone, api_key }
     }
