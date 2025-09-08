@@ -15,6 +15,9 @@ Like Dende in DBZ watching over Earth, `dende-rs` watches your logs in real time
 - [HELP.md](HELP.md) - How to compile it? How to install it? How to use it? How to add another API notifier?
 - [CHANGELOG.md](CHANGELOG.md) - A record of all significant version changes
 - [ROADMAP.md](ROADMAP.md) - List of planned evolutions
+- [Features](#features) – Overview of the main capabilities
+- [Notification Sinks](#notification-sinks) – Available output channels
+- [Example Use Cases](#example-use-cases) – Practical scenarios
 - [EXAMPLES](#examples) - Notifications examples for `log-watcher`, `virustotal-watcher`, `Telegram` and `SMS`
 
 ---
@@ -30,7 +33,7 @@ Like Dende in DBZ watching over Earth, `dende-rs` watches your logs in real time
 
 ---
 
-## Notification Sinks
+## Notification sinks
 
 | Sink       | Type    | Notes                          |
 |------------|---------|--------------------------------|
@@ -40,7 +43,7 @@ Like Dende in DBZ watching over Earth, `dende-rs` watches your logs in real time
 
 ---
 
-## Example Use Cases
+## Example use cases
 
 - Watch application logs and send an alert if a critical error appears
 - Monitor file output for *regex patterns* (e.g. IP addresses, hashes)
