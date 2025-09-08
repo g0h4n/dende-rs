@@ -78,8 +78,8 @@ Options:
   - **Description:** TODO (planned: SMTP/API-based email alerts with subject templating and batching).
   - **Command line/YAML parameter:** `"email:ID"` (e.g., `"email:ops@example.com"`)
 
-- [ ] SMS
-  - **Description:** TODO (planned: provider-backed SMS alerts with basic rate-limiting).
+- [x] SMS
+  - **Description:** Send alerts via SMS using Textbelt API
   - **Command line/YAML parameter:** `"sms:ID"` (e.g., "`sms:+33612345678`")
 
 ## Quick usage
@@ -116,6 +116,7 @@ docker run --rm -v $PWD:/usr/src/dende-rs dende-rs linux
 5. Put these UserId YAML file like `tg:UserId` or directly as CLI argument.
 6. Please have each Telegram user send /start to your bot (bots can’t initiate DMs).
 7. Make sure that your [Rust](https://www.rust-lang.org/tools/install) compiler is up to date:
+
 
 ```bash
 $ rustup update nightly
@@ -175,7 +176,7 @@ jobs:
   # Job 3 (log-watcher)
   - path: "/tmp/logs/nginx/access.log"    # Or path of one file
     regex: '^SUCCESS.*'                   # Using regex
-    to: ["console:log", "tg:FIXME"]       # Console + Telegram 
+    to: ["console:log", "tg:FIXME", "sms:+33612345678"]       # Console + Telegram + SMS
 
   # Job 4 (virustotal-watcher) (Check if your payload will be publish on virustotal and notify you)
   - hash: [ 

@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.0.3
+`2025/09/09`
+Added new notifier (SMS)
 ## v0.0.2
 
 ### Date

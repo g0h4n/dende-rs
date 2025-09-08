@@ -26,3 +26,4 @@ tokio = { version = "1.8", features = ["macros", "fs", "rt-multi-thread", "proce
 # YAML
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
+textbelt = "1.0.0"

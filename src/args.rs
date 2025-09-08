@@ -44,7 +44,9 @@ pub struct Args {
     /// Virustotal API token to check the payload hashes is published or not (or ENV VIRUSTOTAL_TOKEN) (single-job CLI mode)
     #[arg(long = "virustotal-token", env = "VIRUSTOTAL_TOKEN")]
     pub virustotal_token: Option<String>,
-
+    /// Textbelt API token to send SMS
+    #[arg(long = "textbelt-token", env = "TEXTBELT_TOKEN")]
+    pub textbelt_token: Option<String>,
     /// YAML configuration file (multi-jobs)
     #[arg(short = 'C', long = "config")]
     pub config: Option<PathBuf>,
@@ -73,6 +75,8 @@ pub struct JobSpec {
     pub hash: Option<Vec<String>>,
     #[serde(default)]
     pub virustotal_token: Option<String>,
+    #[serde(default)]
+    pub textbelt_token: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -81,6 +85,8 @@ pub struct ConfigFile {
     pub telegram_token: Option<String>,
     #[serde(default)]
     pub virustotal_token: Option<String>,
+    #[serde(default)]
+    pub textbelt_token: Option<String>,
     pub jobs: Vec<JobSpec>,
 }
 
@@ -89,7 +95,7 @@ fn default_false() -> bool { false }
 
 /// Load args from CLI or from YAML file
 pub fn load_jobs_from_cli_or_yaml(args: &Args)
- -> Result<(Vec<JobSpec>, Option<String>, Option<String>)> {
+ -> Result<(Vec<JobSpec>, Option<String>, Option<String>, Option<String>)> {
     if let Some(cfg_path) = args.config.as_ref() {
         let text = std::fs::read_to_string(cfg_path)
             .with_context(|| format!("Reading config file: {}", cfg_path.display()))?;
@@ -139,7 +145,7 @@ pub fn load_jobs_from_cli_or_yaml(args: &Args)
             }
         }
 
-        return Ok((cfg.jobs, cfg.telegram_token, cfg.virustotal_token));
+        return Ok((cfg.jobs, cfg.telegram_token, cfg.virustotal_token, cfg.textbelt_token));
     }
 
     // --- CLI (one job only) ---
@@ -158,8 +164,9 @@ pub fn load_jobs_from_cli_or_yaml(args: &Args)
             telegram_token: args.telegram_token.clone(),
             hash: Some(h.clone()),
             virustotal_token: args.virustotal_token.clone(),
+            textbelt_token: args.textbelt_token.clone(),
         };
-        Ok((vec![job], None, None))
+        Ok((vec![job], None, None, None))
     } else {
         let path = args.path.as_ref()
             .ok_or_else(|| anyhow::anyhow!("--path required in CLI mode (or use --config)"))?;
@@ -182,7 +189,8 @@ pub fn load_jobs_from_cli_or_yaml(args: &Args)
             telegram_token: args.telegram_token.clone(),
             hash: None,
             virustotal_token: args.virustotal_token.clone(),
+            textbelt_token: args.textbelt_token.clone(),
         };
-        Ok((vec![job], None, None))
+        Ok((vec![job], None, None, None))
     }
 }
