@@ -1,27 +1,15 @@
-# Changelog
+## 0.0.4 2025/12/01
 
-## v0.0.3
+Testing Github Workflow Action for Rust compilation.
 
-### Date
-`2025/09/08`
+## 0.0.3 2025/09/08
 
-### Summary
 Added new notifier (SMS) from [Textbelt](https://textbelt.com/) API.
 
-## v0.0.2
-
-### Date
-`2025/08/14`
-
-### Summary
+## 0.0.2 2025/08/14
 
 Added new job, for VirusTotal hash watcher, polls SHA-256 payloads and stops once found.
 
-## v0.0.1
-
-### Date
-`2025/08/12`
-
-### Summary
+## 0.0.1 2025/08/12
 
 First commit.
