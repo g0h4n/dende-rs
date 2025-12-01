@@ -149,7 +149,7 @@ jobs:
       - name: Publish artifacts and release
         uses: houseabsolute/actions-rust-release@v0
         with:
-          executable-name: ${{ (runner.os == 'Linux' && contains(matrix.platform.target, 'windows')) && 'rusthound-ce.exe' || 'rusthound-ce' }}
+          executable-name: ${{ (runner.os == 'Linux' && contains(matrix.platform.target, 'windows')) && 'dende-rs.exe' || 'dende-rs' }}
           target: ${{ matrix.platform.target }}
-          archive-name: ${{ matrix.platform.target == 'x86_64-pc-windows-gnu' && 'rusthound-ce-Windows-gnu-x86_64' || '' }}
+          archive-name: ${{ matrix.platform.target == 'x86_64-pc-windows-gnu' && 'dende-rs-Windows-gnu-x86_64' || '' }}
           changes-file: ''
