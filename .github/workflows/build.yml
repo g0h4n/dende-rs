@@ -6,6 +6,9 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Release - ${{ matrix.platform.os-name }}
@@ -152,4 +155,4 @@ jobs:
           executable-name: ${{ (runner.os == 'Linux' && contains(matrix.platform.target, 'windows')) && 'dende-rs.exe' || 'dende-rs' }}
           target: ${{ matrix.platform.target }}
           archive-name: ${{ matrix.platform.target == 'x86_64-pc-windows-gnu' && 'dende-rs-Windows-gnu-x86_64' || '' }}
-          changes-file: ''
+          changes-file: 'CHANGELOG.md'
