@@ -15,6 +15,7 @@ pub fn handle_event(
     matcher: &Matcher,
     notifier: &Notifier,
     watch_file_name: Option<&std::ffi::OsStr>,
+    only_message: bool,
 ) {
     use notify::event::{CreateKind, ModifyKind, RenameMode};
 
@@ -22,7 +23,7 @@ pub fn handle_event(
         if let Some(name) = watch_file_name {
             if path.file_name() != Some(name) { return; }
         }
-        if let Err(e) = read_new_lines(&path, state, matcher, notifier, from_start) {
+        if let Err(e) = read_new_lines(&path, state, matcher, notifier, from_start, only_message) {
             error!("FS read error {}: {}", path.display(), e);
         }
     };
@@ -59,6 +60,7 @@ pub fn spawn_job_watcher(
     read_existing: bool,
     matcher: crate::Matcher,
     notifier: Notifier,
+    only_message: bool,
 ) -> thread::JoinHandle<()> {
     thread::Builder::new()
         .name(format!("watcher-{}", idx))
@@ -66,7 +68,7 @@ pub fn spawn_job_watcher(
             let mut state = TailState::new();
 
             // Initialize (reads existing content or sets offsets)
-            if let Err(e) = initialize_files(&folder, recursive, read_existing, &mut state, &matcher, &notifier) {
+            if let Err(e) = initialize_files(&folder, recursive, read_existing, &mut state, &matcher, &notifier, only_message) {
                 error!("[job {}] init error: {}", idx, e);
                 return;
             }
@@ -95,7 +97,7 @@ pub fn spawn_job_watcher(
 
             loop {
                 match rx.recv_timeout(Duration::from_secs(1)) {
-                    Ok(Ok(event)) => handle_event(event, &mut state, &matcher, &notifier, watch_name.as_deref()),
+                    Ok(Ok(event)) => handle_event(event, &mut state, &matcher, &notifier, watch_name.as_deref(), only_message),
                     Ok(Err(err)) => error!("[job {}] event error: {}", idx, err),
                     Err(mpsc::RecvTimeoutError::Timeout) => {}
                     Err(e) => { error!("[job {}] channel error: {}", idx, e); break; }

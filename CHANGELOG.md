@@ -1,3 +1,7 @@
+## 0.0.5 2026-02-17
+
+- Adding `--only-message` to remove all headers and send only the matched message from the log.
+
 ## 0.0.4 2025-12-01
 
 - Testing Github Workflow Action for Rust compilation. Thanks to [@aancw](https://github.com/aancw) for initial commit on [RustHound-CE](https://github.com/g0h4n/RustHound-CE) project.

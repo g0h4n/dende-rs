@@ -48,6 +48,7 @@ async fn main() -> Result<()> {
                     job.read_existing,
                     matcher,
                     notifier,
+                    job.only_message,
                 );
                 _thread_handles.push(handle);
             }

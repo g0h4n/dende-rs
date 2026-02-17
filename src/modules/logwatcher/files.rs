@@ -30,11 +30,12 @@ pub fn initialize_files(
     state: &mut TailState,
     matcher: &Matcher,
     notifier: &Notifier,
+    only_message: bool
 ) -> Result<()> {
     // Support both a single file and a directory
     if folder.is_file() {
         if read_existing {
-            read_new_lines(folder, state, matcher, notifier, true)?;
+            read_new_lines(folder, state, matcher, notifier, true, only_message)?;
         } else {
             let len = std::fs::metadata(folder).map(|m| m.len()).unwrap_or(0);
             state.offsets.insert(folder.to_path_buf(), len);
@@ -52,7 +53,7 @@ pub fn initialize_files(
     for entry in walker.filter_map(Result::ok).filter(|e| e.file_type().is_file()) {
         let path = entry.into_path();
         if read_existing {
-            read_new_lines(&path, state, matcher, notifier, true)?;
+            read_new_lines(&path, state, matcher, notifier, true, only_message)?;
         } else {
             let len = std::fs::metadata(&path).map(|m| m.len()).unwrap_or(0);
             state.offsets.insert(path.clone(), len);
@@ -69,6 +70,7 @@ pub fn read_new_lines(
     matcher: &Matcher,
     notifier: &Notifier,
     from_scratch: bool,
+    only_message: bool,
 ) -> io::Result<()> {
     let mut f = match File::open(path) {
         Ok(f) => f,
@@ -104,14 +106,19 @@ pub fn read_new_lines(
         if matcher.matches(&line) {
 
             info!("File {:?} match for {:?}", &path, &matcher);
+            trace!("Only message: {:?} ", &only_message);
 
-            let _txt = format!(
+            let _txt = if only_message {
+                format!("{}",line)
+            } else {
+                format!(
                 "!dende-rs::log-watcher::matched!\n\nDate: {}\nFilename and line: {}:{}\nContent matched:\n\n{}",
                 timestamp(),
                 path.display(),
                 line_no,
                 line
-            );
+                )
+            };
             let _html = format!(
                 "<b>!dende-rs::log-watcher::matched!</b>\n\n<i>Date:</i> <b>{}</b>\n<i>Filename and line:</i> <b>{}:{}</b>\n<i>Content matched:</i>\n\n{}",
                 timestamp(),

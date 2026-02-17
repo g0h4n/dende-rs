@@ -1,6 +1,6 @@
 [package]
 name = "dende-rs"
-version = "0.0.3"
+version = "0.0.5"
 authors = ["g0h4n <https://github.com/g0h4n>"]
 keywords = ["notifier", "tokyo", "textbelt", "sms", "log"]
 description = "Monitoring tool to detect patterns or IOCs (strings, regex, VirusTotal) and alert you and your team via console, Telegram or SMS written in Rust."

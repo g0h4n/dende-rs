@@ -48,6 +48,8 @@ Options:
           YAML configuration file (multi-jobs)
   -v...
           Verbosity (-v, -vv, -vvv)
+      --only-message
+          Send only the matched message
   -h, --help
           Print help
 ```
@@ -167,6 +169,7 @@ jobs:
     search: "ERROR"                       # Using simple string to search
     recursive: true                       # Recurse other folders inside the main folder
     read_existing: false                  # Only read new files
+    only_message: false                   # Print all info in the notificaiton
     to: ["console:log"]                   # Only on console 
 
   # Job 2 (log-watcher)
@@ -174,7 +177,8 @@ jobs:
     regex: "^password=.*"                 # Using simple string to search
     recursive: true                       # Recurse other folders inside the main folder
     read_existing: true                   # Only read new files
-    to: ["tg:FIXME"]                      # Only on Telegram
+    only_message: true                    # Print only the message in the notification
+    to: ["tg:FIXME", "sms:+33601020304"]  # Telegram and SMS by textbelt API
   
   # Job 3 (log-watcher)
   - path: "/tmp/logs/nginx/access.log"    # Or path of one file

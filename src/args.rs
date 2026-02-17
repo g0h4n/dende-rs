@@ -54,6 +54,10 @@ pub struct Args {
     /// Verbosity (-v, -vv, -vvv)
     #[arg(short = 'v', action = ArgAction::Count)]
     pub verbose: u8,
+
+    /// Send only the matched message
+    #[arg(long = "only-message", default_value_t = false)]
+    pub only_message: bool,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -77,6 +81,8 @@ pub struct JobSpec {
     pub virustotal_token: Option<String>,
     #[serde(default)]
     pub textbelt_token: Option<String>,
+    #[serde(default = "default_false")]
+    pub only_message: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -165,6 +171,7 @@ pub fn load_jobs_from_cli_or_yaml(args: &Args)
             hash: Some(h.clone()),
             virustotal_token: args.virustotal_token.clone(),
             textbelt_token: args.textbelt_token.clone(),
+            only_message: args.only_message,
         };
         Ok((vec![job], None, None, None))
     } else {
@@ -190,6 +197,7 @@ pub fn load_jobs_from_cli_or_yaml(args: &Args)
             hash: None,
             virustotal_token: args.virustotal_token.clone(),
             textbelt_token: args.textbelt_token.clone(),
+            only_message: args.only_message,
         };
         Ok((vec![job], None, None, None))
     }
