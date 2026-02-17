@@ -24,7 +24,7 @@ env_logger = "0.11"
 log = "0.4"
 
 # Virustotal library
-virustotal3 = { version = "3.0.2" }
+virustotal3 = { version = "3.0.3" }
 
 # Telegram
 teloxide = { version = "0.17", features = ["macros", "rustls"], default-features = false }
