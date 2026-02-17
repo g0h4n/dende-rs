@@ -35,7 +35,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.9"
 
 # Textbelt (SMS)
-textbelt = "1.0.0"
+textbelt = "1.0.1"
 
 [patch.crates-io]
 native-tls = { git = "https://github.com/sfackler/rust-native-tls" }
